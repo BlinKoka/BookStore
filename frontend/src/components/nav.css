@@ -1,0 +1,94 @@
+/* General Navbar Styling */
+.navbar {
+    width: 100%; /* Full width */
+    background-color: #f8f9fa; /* Light background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    position: fixed; /* Fix the navbar to the top */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensure it stays above other content */
+    padding: 0.5rem 1rem; /* Add some spacing */
+    border-bottom: 1px solid #e0e0e0; /* Thin bottom border for definition */
+  }
+  
+  /* Navbar Brand */
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff; /* Primary color */
+    text-decoration: none;
+  }
+  
+  .navbar-brand:hover {
+    color: #0056b3; /* Darker shade on hover */
+  }
+  
+  /* Navbar Links */
+  .navbar-nav {
+    display: flex; /* Align items horizontally */
+    align-items: center;
+    margin-left: auto; /* Push links to the right */
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 1rem;
+    margin: 0 0.75rem; /* Add spacing between links */
+    color: #343a40; /* Dark text color */
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #007bff; /* Highlight color on hover */
+  }
+  
+  /* Active Link */
+  .navbar-nav .nav-link.active {
+    font-weight: bold;
+    color: #0056b3; /* Slightly darker highlight */
+    border-bottom: 2px solid #007bff; /* Underline active link */
+  }
+  
+  /* Dropdown Menu */
+  .navbar-nav .dropdown-menu {
+    border-radius: 0.25rem; /* Subtle rounding */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Dropdown shadow */
+  }
+  
+  .navbar-nav .dropdown-item {
+    color: #343a40;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .navbar-nav .dropdown-item:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  /* Mobile Menu */
+  .navbar-toggler {
+    border: none;
+  }
+  
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%2816, 16, 16, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+  
+  /* Form in Navbar */
+  .navbar .form-control {
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ced4da;
+  }
+  
+  .navbar .btn-outline-success {
+    border-radius: 20px;
+    color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .navbar .btn-outline-success:hover {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
