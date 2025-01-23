@@ -7,14 +7,14 @@ function Navigation() {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="/">Bookstore</Navbar.Brand>
+        <Navbar.Brand href="/">BK Library</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <BootstrapNav className="me-auto">
             <LinkContainer to="/">
               <BootstrapNav.Link>Home</BootstrapNav.Link>
             </LinkContainer>
-            <LinkContainer to="./books">
+            <LinkContainer to="./book">
               <BootstrapNav.Link>Books</BootstrapNav.Link>
             </LinkContainer>
             <NavDropdown title="Admin Dashboard" id="basic-nav-dropdown">

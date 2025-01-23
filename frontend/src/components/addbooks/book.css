@@ -1,0 +1,81 @@
+.books {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping for responsive design */
+    gap: 20px; /* Increase spacing for better readability */
+    justify-content: center; /* Center books container */
+    margin-top: 20px; /* Add spacing from header */
+}
+
+.book {
+    flex: 1 1 200px; /* Flexible width with a minimum size */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid #ddd; /* Add border for better structure */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+img {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    background-color: rgb(202, 250, 234);
+    border-radius: 5px; /* Add rounded corners */
+}
+
+.delete, .update {
+    border: none;
+    padding: 5px 10px;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded button edges */
+    font-size: 0.9rem; /* Improve font size */
+}
+
+.delete {
+    border: 1px solid rgb(245, 191, 191);
+    color: rgb(242, 100, 100);
+}
+
+.update {
+    border: 1px solid rgb(204, 204, 243);
+    color: rgb(139, 139, 234);
+}
+.add{
+    border: none;
+    padding: 10px;
+    background-color: rgb(202, 117, 52);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded button edges */
+    font-size: 1rem;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px; /* Centered smaller form */
+    margin: 20px auto;
+}
+
+input {
+    width: 100%; /* Full width for inputs */
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 5px; /* Rounded input edges */
+}
+
+.formButton {
+    border: none;
+    padding: 10px;
+    background-color: rgb(202, 117, 52);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded button edges */
+    font-size: 1rem;
+}
