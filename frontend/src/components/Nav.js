@@ -1,6 +1,8 @@
 import React from "react";
 import { Navbar, Nav as BootstrapNav, NavDropdown, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import "./nav.css";
 
 function Navigation() {
@@ -16,6 +18,12 @@ function Navigation() {
             </LinkContainer>
             <LinkContainer to="./book">
               <BootstrapNav.Link>Books</BootstrapNav.Link>
+            </LinkContainer>
+            <LinkContainer to="./cart">
+              <BootstrapNav.Link className="cart-link">
+                <FontAwesomeIcon icon={faShoppingCart} />
+                <span className="cart-badge">0</span>
+              </BootstrapNav.Link>
             </LinkContainer>
             <NavDropdown title="Admin Dashboard" id="basic-nav-dropdown">
               <LinkContainer to="/booklist">

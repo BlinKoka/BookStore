@@ -80,7 +80,7 @@ app.post("/books", upload.single("cover"), (req, res) => {
 app.put("/books/:id", upload.single("cover"), (req, res) => {
     const { id } = req.params;
     const { title, desc, price } = req.body;
-    const cover = req.file ? `/uploads/${req.file.filename}` : req.body.cover;
+    const cover = req.file ? `/IMG/${req.file.filename}` : req.body.cover;
 
     const query = `
         UPDATE books 
