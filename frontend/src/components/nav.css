@@ -1,113 +1,108 @@
+/* nav.css */
 
+/* General Navbar Styling */
 .navbar {
-    width: 100%; /* Full width */
-    background-color: #f8f9fa; /* Light background color */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    position: fixed; /* Fix the navbar to the top */
-    top: 0;
-    left: 0;
-    z-index: 1000; /* Ensure it stays above other content */
-    padding: 0.5rem 1rem; /* Add some spacing */
-    border-bottom: 1px solid #e0e0e0; /* Thin bottom border for definition */
-  }
-  
-  /* Navbar Brand */
-  .navbar-brand {
-    position: absolute;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #4000ff; /* Primary color */
-    text-decoration: none;
-  }
-  
-  .navbar-brand:hover {
-    color: #0056b3; /* Darker shade on hover */
-  }
-  
-  /* Navbar Links */
-  .navbar-nav {
-    display: flex; /* Align items horizontally */
-    align-items: center;
-    margin-left: auto; /* Push links to the right */
-  }
-  
-  .navbar-nav .nav-link {
-    font-size: 1rem;
-    margin: 0 0.75rem; /* Add spacing between links */
-    color: #343a40; /* Dark text color */
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  .navbar-nav .nav-link:hover {
-    color: #007bff; /* Highlight color on hover */
-  }
-  
-  /* Active Link */
-  .navbar-nav .nav-link.active {
-    font-weight: bold;
-    color: #0056b3; /* Slightly darker highlight */
-    border-bottom: 2px solid #007bff; /* Underline active link */
-  }
-  
-  /* Dropdown Menu */
-  .navbar-nav .dropdown-menu {
-    border-radius: 0.25rem; /* Subtle rounding */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Dropdown shadow */
-  }
-  
-  .navbar-nav .dropdown-item {
-    color: #343a40;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .navbar-nav .dropdown-item:hover {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  /* Mobile Menu */
-  .navbar-toggler {
-    border: none;
-  }
-  
-  .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%2816, 16, 16, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-  }
-  
-  /* Form in Navbar */
-  .navbar .form-control {
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ced4da;
-  }
-  
-  .navbar .btn-outline-success {
-    border-radius: 20px;
-    color: #28a745;
-    border-color: #28a745;
-  }
-  
-  .navbar .btn-outline-success:hover {
-    background-color: #28a745;
-    color: #fff;
-  }
-.nav {
-    display: flex;
-    gap: 1rem;
-    background-color: #f4f4f4;
-    padding: 1rem;
+  background-color: #f8f9fa;
+  padding: 10px 20px;
 }
 
-.nav a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
+.navbar-nav {
+  display: flex;
+  gap: 20px;
 }
-.cart-badge{
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007bff;
+  text-decoration: none;
+}
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+  font-size: 1rem;
+  color: #333;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #007bff;
+}
+
+/* Admin Dropdown */
+.navbar-nav .nav-dropdown .dropdown-menu {
+  background-color: #f8f9fa;
+  border: 1px solid #007bff;
+}
+
+/* Cart Container */
+.cart-container {
+  display: flex;
+  align-items: center;
+}
+
+.cart-link {
+  font-size: 1.2rem;
+  color: #333;
+  display: flex;
+  align-items: center;
   position: relative;
-  top: -10px;
 }
-body{
-  font-family: Arial, sans-serif;
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 3px 7px;
+  font-size: 0.9rem;
+}
+
+/* Authentication Buttons */
+.auth-button {
+  padding: 8px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.auth-button.login {
+  background-color: #28a745;
+  color: white;
+}
+
+.auth-button.login:hover {
+  background-color: #218838;
+}
+
+.auth-button.logout {
+  background-color: #dc3545;
+  color: white;
+}
+
+.auth-button.logout:hover {
+  background-color: #c82333;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .navbar-nav {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .cart-container {
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 8px;
+  }
 }

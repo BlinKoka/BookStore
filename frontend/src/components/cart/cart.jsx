@@ -9,15 +9,15 @@ const Cart = () => {
         <div className="cart">
             <h1>Your Cart</h1>
             {cartItems.length === 0 ? (
-                <p>Your cart is empty.</p>
+                <p>{/* Your cart is empty. */}</p>
             ) : (
                 <div>
                     <div className="cart-header">
-                        <p>Title</p>
-                        <p>Price</p>
-                        <p>Quantity</p>
-                        <p>Total</p>
-                        <p>Action</p>
+                        <p>{/* Title */}</p>
+                        <p>{/* Price */}</p>
+                        <p>{/* Quantity */}</p>
+                        <p>{/* Total */}</p>
+                        <p>{/* Action */}</p>
                     </div>
                     <hr />
                     {cartItems.map((item) => (

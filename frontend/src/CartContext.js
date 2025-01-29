@@ -1,9 +1,19 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
+// Create CartContext to share cart state across components
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-    const [cartItems, setCartItems] = useState([]);
+    // Initialize cartItems from localStorage or default to an empty array
+    const [cartItems, setCartItems] = useState(() => {
+        const savedCartItems = localStorage.getItem("cartItems");
+        return savedCartItems ? JSON.parse(savedCartItems) : [];
+    });
+
+    // Save cartItems to localStorage whenever it changes
+    useEffect(() => {
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }, [cartItems]);
 
     // Function to add an item to the cart
     const addToCart = (book) => {
@@ -28,16 +38,24 @@ export const CartProvider = ({ children }) => {
         setCartItems((prevCartItems) => prevCartItems.filter((item) => item.id !== id));
     };
 
+    // Optional function to clear the entire cart
+    const clearCart = () => {
+        setCartItems([]);
+    };
+
+    // Context value to pass to components
     const value = {
         cartItems,
         addToCart,
         getTotalCartAmount,
         removeFromCart,
+        clearCart,  // Optional: add clear cart functionality
     };
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
 
+// Hook to access cart context
 export const useCart = () => {
     return useContext(CartContext);
 };

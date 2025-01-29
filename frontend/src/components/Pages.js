@@ -5,20 +5,18 @@ import Books from './addbooks/Books';
 import Update from './addbooks/Update';
 import Book from './addbooks/book'; 
 import Cart from './cart/cart';
-
-
+import Login from './loginsignup/LoginSignup';
 
 const Pages = () => {
     return (
-        <>
-            <Routes>
-                <Route path="/book" element={<Book />} /> 
-                <Route path="/booklist" element={<Books />} />
-                <Route path="/add" element={<Add />} />
-                <Route path="/update/:id" element={<Update />} />
-                <Route path="/cart" element={<Cart />} />
-            </Routes>
-        </>
+        <Routes>
+            <Route path="/book" element={<Book />} /> 
+            <Route path="/booklist" element={<Books />} />
+            <Route path="/add" element={<Add />} />
+            <Route path="/update/:id" element={<Update />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/login" element={<Login />} />
+        </Routes>
     );
 }
 
