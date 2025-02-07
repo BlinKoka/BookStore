@@ -10,7 +10,7 @@ function Login() {
   const [loginStatus, setLoginStatus] = useState("");
   const [registerStatus, setRegisterStatus] = useState("");
   const [showRegisterForm, setShowRegisterForm] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
+  const [, setIsLoggedIn] = useState(false); // Track login state
 
   const navigate = useNavigate();
 
@@ -109,8 +109,8 @@ function Login() {
                   type="button"
                   style={{
                     textDecoration: "none",
-                    color: "black",
-                    borderColor: "rgb(0, 247, 255)",
+                    color: "white",
+                    backgroundColor: "#2c6e49",
                     fontSize: "14px",
                     borderRadius: "12px"
                   }}
