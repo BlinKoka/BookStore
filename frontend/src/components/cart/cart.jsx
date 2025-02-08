@@ -13,17 +13,17 @@ const Cart = () => {
             ) : (
                 <div>
                     {cartItems.map((item) => (
-                        <div className="cart-item" key={item.idcart}> {/* ✅ Use idcart as key */}
+                        <div className="cart-item" key={item.idcart}>
                             <p>{item.title}</p>
                             <p>${item.price}</p>
                             <input
                                 type="number"
                                 value={item.quantity}
                                 min="1"
-                                onChange={(e) => updateCartQuantity(item.idcart, Number(e.target.value))} // ✅ Use idcart
+                                onChange={(e) => updateCartQuantity(item.idcart, Number(e.target.value))}
                             />
                             <p>${(item.price * item.quantity).toFixed(2)}</p>
-                            <button onClick={() => removeFromCart(item.idcart)}>Remove</button> {/* ✅ Use idcart */}
+                            <button onClick={() => removeFromCart(item.idcart)}>Remove</button>
                         </div>
                     ))}
                     <hr />

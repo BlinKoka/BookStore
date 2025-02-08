@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../../CartContext"; // Import the custom hook
+import { useCart } from "../../CartContext";
 import "./book.css";
 
 const Book = () => {
     const [books, setBooks] = useState([]);
-    const { addToCart } = useCart(); // Use context
+    const { addToCart } = useCart();
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchAllBooks = async () => {
-            try {
-                const res = await axios.get("http://localhost:3001/books");
-                setBooks(res.data);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        fetchAllBooks();
+        axios.get("http://localhost:3001/books")
+            .then(res => setBooks(res.data))
+            .catch(err => console.log(err));
     }, []);
-
-    
-    const goToCart = () => {
-        navigate("/cart");
-    };
 
     return (
         <div>
@@ -42,7 +31,7 @@ const Book = () => {
                     </div>
                 ))}
             </div>
-            <button className="go-to-cart" onClick={goToCart}>
+            <button className="go-to-cart" onClick={() => navigate("/cart")}>
                 View Cart
             </button>
         </div>

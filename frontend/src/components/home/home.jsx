@@ -10,7 +10,7 @@ const Home = () => {
     const fetchBooks = async () => {
       try {
         const res = await axios.get("http://localhost:3001/books");
-        setBooks(res.data.slice(0, 4)); // Show only 4 books on homepage
+        setBooks(res.data.slice(3, 7)); 
       } catch (err) {
         console.log(err);
       }
@@ -36,7 +36,7 @@ const Home = () => {
               <img src={`http://localhost:3001${book.cover}`} alt={book.title} />
               <h3>{book.title}</h3>
               <p>{book.desc.substring(0, 50)}...</p>
-              <Link to={`/book/${book.id}`} className="view-btn">View Details</Link>
+              <Link to={`/book`} className="view-btn">View Details</Link>
             </div>
           ))}
         </div>

@@ -158,64 +158,53 @@ app.post("/login", (req, res) => {
     });
 });
 
-app.post("/cart", (req, res) => {
+// ✅ Get cart items for a user
+app.get("/cart/:userId", (req, res) => {
+    const userId = req.params.userId;
+    const sql = "SELECT cart.idcart, cart.quantity, books.id, books.title, books.price FROM cart INNER JOIN books ON cart.book_id = books.id WHERE cart.user_id = ?";
+    db.query(sql, [userId], (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.json(result);
+    });
+});
+
+// ✅ Add to cart
+app.post("/cart/add", (req, res) => {
     const { user_id, book_id, quantity } = req.body;
-
-    // Check if the item already exists in the cart
-    const checkQuery = "SELECT * FROM cart WHERE user_id = ? AND book_id = ?";
-    db.query(checkQuery, [user_id, book_id], (err, result) => {
+    const sql = "INSERT INTO cart (user_id, book_id, quantity) VALUES (?, ?, ?)";
+    db.query(sql, [user_id, book_id, quantity], (err, result) => {
         if (err) return res.status(500).json(err);
-
-        if (result.length > 0) {
-            // If book exists, update quantity
-            const updateQuery = "UPDATE cart SET quantity = quantity + ? WHERE user_id = ? AND book_id = ?";
-            db.query(updateQuery, [quantity, user_id, book_id], (err, data) => {
-                if (err) return res.status(500).json(err);
-                return res.status(200).json({ message: "Cart updated successfully" });
-            });
-        } else {
-            // Insert new cart item
-            const insertQuery = "INSERT INTO cart (user_id, book_id, quantity) VALUES (?, ?, ?)";
-            db.query(insertQuery, [user_id, book_id, quantity], (err, data) => {
-                if (err) return res.status(500).json(err);
-                return res.status(201).json({ message: "Book added to cart" });
-            });
-        }
+        res.json({ message: "Added to cart", idcart: result.insertId });
     });
 });
 
-app.get("/cart/:user_id", (req, res) => {
-    const { user_id } = req.params;
-    const query = `
-        SELECT cart.idcart, cart.quantity, books.id AS book_id, books.title, books.price, books.cover
-        FROM cart
-        JOIN books ON cart.book_id = books.id
-        WHERE cart.user_id = ?`;
-    
-    db.query(query, [user_id], (err, data) => {
+// ✅ Update cart quantity
+app.put("/cart/update", (req, res) => {
+    const { idcart, quantity } = req.body;
+    const sql = "UPDATE cart SET quantity = ? WHERE idcart = ?";
+    db.query(sql, [quantity, idcart], (err, result) => {
         if (err) return res.status(500).json(err);
-        return res.status(200).json(data);
+        res.json({ message: "Quantity updated" });
     });
 });
 
-app.put("/cart/:idcart", (req, res) => {
+// ✅ Remove item from cart
+app.delete("/cart/remove/:idcart", (req, res) => {
     const { idcart } = req.params;
-    const { quantity } = req.body;
-
-    const query = "UPDATE cart SET quantity = ? WHERE idcart = ?";
-    db.query(query, [quantity, idcart], (err, data) => {
+    const sql = "DELETE FROM cart WHERE idcart = ?";
+    db.query(sql, [idcart], (err, result) => {
         if (err) return res.status(500).json(err);
-        return res.status(200).json({ message: "Cart item updated successfully" });
+        res.json({ message: "Item removed" });
     });
 });
 
-app.delete("/cart/:idcart", (req, res) => {
-    const { idcart } = req.params;
-
-    const query = "DELETE FROM cart WHERE idcart = ?";
-    db.query(query, [idcart], (err, data) => {
+// ✅ Clear cart on logout
+app.delete("/cart/clear/:userId", (req, res) => {
+    const { userId } = req.params;
+    const sql = "DELETE FROM cart WHERE user_id = ?";
+    db.query(sql, [userId], (err, result) => {
         if (err) return res.status(500).json(err);
-        return res.status(200).json({ message: "Cart item removed successfully" });
+        res.json({ message: "Cart cleared" });
     });
 });
 
