@@ -8,11 +8,17 @@ import "./nav.css";
 
 function Navigation() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [role, setRole] = useState(null);  // Track the role
-  const [cartCount, setCartCount] = useState(0); // Track cart count
+  const [role, setRole] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
 
-  // Check authentication status
+  // ✅ Function to get cart count from localStorage
+  const updateCartCount = () => {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    setCartCount(cart.length);
+  };
+
+  // ✅ Check auth & update cart count on load
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
@@ -20,20 +26,28 @@ function Navigation() {
       setRole(localStorage.getItem("role"));
     } else {
       setIsLoggedIn(false);
+      setRole(null);
     }
-    
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    setCartCount(cart.length); // Update cart count
+    updateCartCount(); // Update cart count on page load
+
+    // ✅ Listen for cart updates across different components/tabs
+    window.addEventListener("storage", updateCartCount);
+    return () => {
+      window.removeEventListener("storage", updateCartCount);
+    };
   }, []);
 
-  // Logout function
+  // ✅ Handle Logout - Clear everything and force UI update
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("role");
     localStorage.removeItem("idusers");
     localStorage.removeItem("cart");
+
     setIsLoggedIn(false);
     setRole(null);
+    setCartCount(0); // ✅ Immediately reset cart count
+
     navigate("/login");
   };
 

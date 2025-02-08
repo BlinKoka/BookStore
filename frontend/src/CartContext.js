@@ -1,61 +1,79 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
 
-// Create CartContext to share cart state across components
 const CartContext = createContext();
 
+export const useCart = () => useContext(CartContext);
+
 export const CartProvider = ({ children }) => {
-    // Initialize cartItems from localStorage or default to an empty array
-    const [cartItems, setCartItems] = useState(() => {
-        const savedCartItems = localStorage.getItem("cartItems");
-        return savedCartItems ? JSON.parse(savedCartItems) : [];
-    });
+    const [cartItems, setCartItems] = useState([]);
+    const user_id = 1; // Replace with actual logged-in user ID
 
-    // Save cartItems to localStorage whenever it changes
     useEffect(() => {
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    }, [cartItems]);
-
-    // Function to add an item to the cart
-    const addToCart = (book) => {
-        setCartItems((prevCartItems) => {
-            const existingItem = prevCartItems.find((item) => item.id === book.id);
-            if (existingItem) {
-                return prevCartItems.map((item) =>
-                    item.id === book.id ? { ...item, quantity: item.quantity + 1 } : item
-                );
+        const fetchCart = async () => {
+            try {
+                const res = await axios.get(`http://localhost:3001/cart/${user_id}`);
+                setCartItems(res.data);
+            } catch (err) {
+                console.log(err);
             }
-            return [...prevCartItems, { ...book, quantity: 1 }];
-        });
+        };
+        fetchCart();
+    }, []);
+
+    const addToCart = async (book) => {
+        try {
+            await axios.post("http://localhost:3001/cart", {
+                user_id,
+                book_id: book.id,
+                quantity: 1,
+            });
+            setCartItems((prev) => {
+                const existingItem = prev.find((item) => item.book_id === book.id);
+                if (existingItem) {
+                    return prev.map((item) =>
+                        item.book_id === book.id ? { ...item, quantity: item.quantity + 1 } : item
+                    );
+                }
+                return [...prev, { ...book, quantity: 1 }];
+            });
+        } catch (err) {
+            console.log(err);
+        }
     };
 
-    // Function to calculate the total amount
-    const getTotalCartAmount = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+    const updateCartQuantity = async (idcart, quantity) => {
+        try {
+            await axios.put(`http://localhost:3001/cart/${idcart}`, { quantity });
+            setCartItems((prev) =>
+                prev.map((item) => (item.idcart === idcart ? { ...item, quantity } : item))
+            );
+        } catch (err) {
+            console.log(err);
+        }
     };
 
-    // Function to remove an item from the cart
-    const removeFromCart = (id) => {
-        setCartItems((prevCartItems) => prevCartItems.filter((item) => item.id !== id));
+    const removeFromCart = async (idcart) => {
+        try {
+            await axios.delete(`http://localhost:3001/cart/${idcart}`);
+            setCartItems((prev) => prev.filter((item) => item.idcart !== idcart)); // ✅ Use idcart
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    
+    const clearCart = async () => {
+        try {
+            await axios.delete(`http://localhost:3001/cart/user/${user_id}`);
+            setCartItems([]);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
-    // Optional function to clear the entire cart
-    const clearCart = () => {
-        setCartItems([]);
-    };
-
-    // Context value to pass to components
-    const value = {
-        cartItems,
-        addToCart,
-        getTotalCartAmount,
-        removeFromCart,
-        clearCart,  // Optional: add clear cart functionality
-    };
-
-    return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
-};
-
-// Hook to access cart context
-export const useCart = () => {
-    return useContext(CartContext);
+    return (
+        <CartContext.Provider value={{ cartItems, addToCart, updateCartQuantity, removeFromCart, clearCart }}>
+            {children}
+        </CartContext.Provider>
+    );
 };

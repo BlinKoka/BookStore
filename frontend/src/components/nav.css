@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 20px !important;
-  width: 97.3%;
+  width: 100%;
 }
 
 /* Navbar Container */
@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 1480px; /* Ensures it doesn't stretch too much */
+  max-width: 1650px; /* Ensures it doesn't stretch too much */
   width: 100%;
   height: 60px;
 }
