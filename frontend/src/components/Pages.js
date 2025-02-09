@@ -7,6 +7,7 @@ import Update from './addbooks/Update';
 import Book from './addbooks/book'; 
 import Cart from './cart/cart';
 import Login from './loginsignup/LoginSignup';
+import Userlist from './users/userlist';
 
 const Pages = () => {
     return (
@@ -14,6 +15,7 @@ const Pages = () => {
             <Route path="/" element={<Home />} />
             <Route path="/book" element={<Book />} /> 
             <Route path="/booklist" element={<Books />} />
+            <Route path="/userlist" element={<Userlist />} />
             <Route path="/add" element={<Add />} />
             <Route path="/update/:id" element={<Update />} />
             <Route path="/cart" element={<Cart />} />
