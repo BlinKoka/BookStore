@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 20px !important;
-  width: 100%;
+  width: 97.6%;
 }
 
 /* Navbar Container */
@@ -50,6 +50,7 @@
 .navbar-nav .nav-dropdown .dropdown-menu {
   background-color: #2c6e49 !important; /* Match navbar background */
   border: none; /* Remove default border */
+  
 }
 
 .navbar-nav .nav-dropdown .dropdown-item {
