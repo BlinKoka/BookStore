@@ -8,8 +8,13 @@ import Book from './addbooks/book';
 import Cart from './cart/cart';
 import Login from './loginsignup/LoginSignup';
 import Userlist from './users/userlist';
+import Checkout from "./Checkout";
+import OrderHistory from './order/OrderHistory';
+import OrderDetails from './order/OrderDetails';
 
 const Pages = () => {
+    const userId = 1;
+
     return (
         <Routes>
             <Route path="/" element={<Home />} />
@@ -20,6 +25,9 @@ const Pages = () => {
             <Route path="/update/:id" element={<Update />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order-history" element={<OrderHistory userId={userId} />} />
+            <Route path="/order-details/:orderId" element={<OrderDetails userId={userId} />} />
         </Routes>
     );
 }

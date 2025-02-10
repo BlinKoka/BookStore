@@ -1,0 +1,60 @@
+.order-history-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff !important;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-history-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.no-orders {
+    text-align: center;
+    color: #888;
+    font-size: 18px;
+}
+
+.order-list {
+    list-style: none;
+    padding: 0;
+}
+
+.order-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    transition: transform 0.2s ease-in-out;
+    border-left: 5px solid #28a745; /* Green accent border */
+}
+
+.order-item p {
+    display: block !important; /* Force block-level display */
+    margin: 5px 0 !important; /* Adds spacing between each line */
+}
+
+.view-details {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #28a745 !important; /* Green */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.view-details:hover {
+    background-color: #218838; /* Darker Green */
+}

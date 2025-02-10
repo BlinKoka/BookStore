@@ -10,7 +10,7 @@ const Home = () => {
     const fetchBooks = async () => {
       try {
         const res = await axios.get("http://localhost:3001/books");
-        setBooks(res.data.slice(3, 7)); 
+        setBooks(res.data.slice(3, 8)); 
       } catch (err) {
         console.log(err);
       }

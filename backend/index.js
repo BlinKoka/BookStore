@@ -38,66 +38,51 @@ app.get("/", (req, res) => {
     res.json("hello this is the backend");
 });
 
-// Get all books
 app.get("/books", (req, res) => {
-    const query = "SELECT * FROM books";
-    db.query(query, (err, data) => {
+    db.query("SELECT * FROM books", (err, data) => {
         if (err) return res.status(500).json(err);
-        return res.status(200).json(data);
+        res.status(200).json(data);
     });
 });
 
-// Get a specific book by id
+// Get book by ID
 app.get("/books/:id", (req, res) => {
     const { id } = req.params;
-    const query = "SELECT * FROM books WHERE id = ?";
-    db.query(query, [id], (err, data) => {
+    db.query("SELECT * FROM books WHERE id = ?", [id], (err, data) => {
         if (err) return res.status(500).json(err);
         if (data.length === 0) return res.status(404).json({ message: "Book not found" });
-        return res.status(200).json(data[0]);
+        res.status(200).json(data[0]);
     });
 });
 
-// Create a new book with image upload
+// Add a new book
 app.post("/books", upload.single("cover"), (req, res) => {
-    const query = "INSERT INTO books (`title`, `desc`, `price`, `cover`) VALUES (?)";
-    const values = [
-        req.body.title,
-        req.body.desc,
-        req.body.price,
-        req.file ? `//${req.file.filename}` : null,
-    ];
-
-    db.query(query, [values], (err, data) => {
+    const { title, desc, price } = req.body;
+    const cover = req.file ? `/IMG/${req.file.filename}` : null;
+    const query = "INSERT INTO books (title, `desc`, price, cover) VALUES (?, ?, ?, ?)";
+    db.query(query, [title, desc, price, cover], (err) => {
         if (err) return res.status(500).json(err);
-        return res.status(201).json({ message: "Book created successfully" });
+        res.status(201).json({ message: "Book added successfully" });
     });
 });
 
-// Update a book, including cover
+// Update book
 app.put("/books/:id", upload.single("cover"), (req, res) => {
     const { id } = req.params;
     const { title, desc, price } = req.body;
     const cover = req.file ? `/IMG/${req.file.filename}` : req.body.cover;
-
-    const query = `UPDATE books SET title = ?, \`desc\` = ?, price = ?, cover = ? WHERE id = ?`;
-    const values = [title, desc, price, cover, id];
-
-    db.query(query, values, (err, result) => {
+    db.query("UPDATE books SET title = ?, `desc` = ?, price = ?, cover = ? WHERE id = ?", [title, desc, price, cover, id], (err) => {
         if (err) return res.status(500).json(err);
-        return res.status(200).json("Book updated successfully");
+        res.status(200).json("Book updated successfully");
     });
 });
 
-// Delete a book
+// Delete book
 app.delete("/books/:id", (req, res) => {
-    const { id } = req.params;
-    const query = "DELETE FROM books WHERE id = ?";
-
-    db.query(query, [id], (err, data) => {
+    db.query("DELETE FROM books WHERE id = ?", [req.params.id], (err, data) => {
         if (err) return res.status(500).json(err);
         if (data.affectedRows === 0) return res.status(404).json({ message: "Book not found" });
-        return res.status(200).json({ message: "Book deleted successfully" });
+        res.status(200).json({ message: "Book deleted successfully" });
     });
 });
 
@@ -158,25 +143,21 @@ app.post("/login", (req, res) => {
     });
 });
 
-// ✅ Get cart items for a user
 app.get("/cart/:userId", (req, res) => {
-    const userId = req.params.userId;
-    const sql = "SELECT cart.idcart, cart.quantity, books.id, books.title, books.price FROM cart INNER JOIN books ON cart.book_id = books.id WHERE cart.user_id = ?";
-    db.query(sql, [userId], (err, result) => {
+    db.query("SELECT cart.idcart, cart.quantity, books.id, books.title, books.price FROM cart JOIN books ON cart.book_id = books.id WHERE cart.user_id = ?", [req.params.userId], (err, result) => {
         if (err) return res.status(500).json(err);
         res.json(result);
     });
 });
 
-// ✅ Add to cart
 app.post("/cart/add", (req, res) => {
     const { user_id, book_id, quantity } = req.body;
-    const sql = "INSERT INTO cart (user_id, book_id, quantity) VALUES (?, ?, ?)";
-    db.query(sql, [user_id, book_id, quantity], (err, result) => {
+    db.query("INSERT INTO cart (user_id, book_id, quantity) VALUES (?, ?, ?)", [user_id, book_id, quantity], (err) => {
         if (err) return res.status(500).json(err);
-        res.json({ message: "Added to cart", idcart: result.insertId });
+        res.json({ message: "Added to cart" });
     });
 });
+
 
 // ✅ Update cart quantity
 app.put("/cart/update", (req, res) => {
@@ -207,6 +188,60 @@ app.delete("/cart/clear/:userId", (req, res) => {
         res.json({ message: "Cart cleared" });
     });
 });
+
+app.get("/orders/:userId", (req, res) => {
+    const { userId } = req.params;
+    const sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC";
+    
+    db.query(sql, [userId], (err, result) => {
+        if (err) return res.status(500).json(err);
+        console.log("Orders:", result); // Log the results
+        res.json(result);
+    });
+});
+
+app.get("/order-items/:orderId", (req, res) => {
+    const orderId = req.params.orderId;
+    console.log("Fetching order items for orderId:", orderId);
+
+    const query = `
+        SELECT oi.*, b.title, b.cover AS image, b.price
+        FROM order_items oi
+        JOIN books b ON oi.book_id = b.id
+        WHERE oi.order_id = ?`;
+
+    db.query(query, [orderId], (err, results) => {
+        if (err) {
+            console.error("Error fetching order items:", err);
+            res.status(500).json({ error: "Failed to retrieve order items" });
+        } else if (results.length === 0) {
+            console.log("No items found for orderId:", orderId); // Log if no items are found
+            res.status(404).json({ error: "No items found for this order" });
+        } else {
+            console.log("Order Items:", results); // Log the results
+            res.json(results);
+        }
+    });
+});
+
+app.post("/checkout", (req, res) => {
+    const { user_id } = req.body;
+    db.query("SELECT cart.book_id, cart.quantity, books.price FROM cart JOIN books ON cart.book_id = books.id WHERE cart.user_id = ?", [user_id], (err, cartItems) => {
+        if (err) return res.status(500).json(err);
+        if (cartItems.length === 0) return res.status(400).json({ message: "Cart is empty" });
+        const totalPrice = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+        db.query("INSERT INTO orders (user_id, total_price) VALUES (?, ?)", [user_id, totalPrice], (err, orderResult) => {
+            if (err) return res.status(500).json(err);
+            const orderId = orderResult.insertId;
+            const orderItems = cartItems.map(item => [orderId, item.book_id, item.quantity, item.price]);
+            db.query("INSERT INTO order_items (order_id, book_id, quantity, price) VALUES ?", [orderItems], (err) => {
+                if (err) return res.status(500).json(err);
+                db.query("DELETE FROM cart WHERE user_id = ?", [user_id], () => res.json({ message: "Order placed successfully" }));
+            });
+        });
+    });
+});
+
 
 // Start the server
 app.listen(3001, () => {

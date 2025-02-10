@@ -4,6 +4,7 @@ import logo from '../Assets/logo.png'
 import Instagram_logo from '../Assets/Instagram_icon.png'
 import facebook_icon from '../Assets/facebook_icon.png'
 import twitter_icon from '../Assets/twitter_logo.png'
+import { Link } from 'react-router-dom';
 
 const Footer = () =>{
   return (
@@ -13,8 +14,8 @@ const Footer = () =>{
                 <p>BK Library</p>
             </div>
             <ul className="footer-links">
-                <li>Books</li>
-                <li>Offices</li>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/book">Books</Link></li>
                 <li>About</li>
                 <li>Contact</li>
             </ul>
