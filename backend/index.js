@@ -137,9 +137,25 @@ app.post("/login", (req, res) => {
         if (err) return res.status(500).send("Error logging in");
         if (result.length === 0) return res.status(401).send("Wrong username or password");
 
-        const token = jwt.sign({ idusers: result[0].id, role: result[0].role }, "jwtkey");
-        const { password, ...others } = result[0];
-        res.cookie("accessToken", token, { httpOnly: false }).status(200).json({ ...others, role: result[0].role });
+        const token = jwt.sign({ idusers: result[0].idusers, role: result[0].role }, "jwtkey");
+        const { password: _, ...others } = result[0]; // Exclude password from the response
+        res.cookie("accessToken", token, { httpOnly: false }).status(200).json({ ...others, token });
+    });
+});
+
+app.post("/change-password", (req, res) => {
+    const { userId, currentPassword, newPassword } = req.body;
+
+    // Verify current password
+    db.query("SELECT * FROM users WHERE idusers = ? AND password = ?", [userId, currentPassword], (err, result) => {
+        if (err) return res.status(500).send("Error verifying password");
+        if (result.length === 0) return res.status(401).send("Current password is incorrect");
+
+        // Update password
+        db.query("UPDATE users SET password = ? WHERE idusers = ?", [newPassword, userId], (err, result) => {
+            if (err) return res.status(500).send("Error updating password");
+            res.send("Password updated successfully");
+        });
     });
 });
 

@@ -8,31 +8,51 @@ import { useCart } from "../CartContext";
 import "./nav.css";
 
 function Navigation() {
+    const [,setUsers] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [role, setRole] = useState(null);
     const { cartItems, clearCart } = useCart();
     const navigate = useNavigate();
 
+    // Extract the token into a variable
+    const token = localStorage.getItem("accessToken");
+
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
-        if (token) {
-            setIsLoggedIn(true);
-            setRole(localStorage.getItem("role"));
-        } else {
-            setIsLoggedIn(false);
-            setRole(null);
+        console.log("Token from localStorage:", token);
+        console.log("Username from localStorage:", localStorage.getItem("username"));
+        console.log("Role from localStorage:", localStorage.getItem("role"));
+
+        if (!token) {
+            navigate("/login"); // Redirect to login if no token is found
+            return;
         }
-    }, []);
+
+        setIsLoggedIn(true);
+        setRole(localStorage.getItem("role"));
+
+        const userData = {
+            username: localStorage.getItem("username"),
+            idusers: localStorage.getItem("idusers"),
+            role: localStorage.getItem("role"),
+        };
+        setUsers(userData);
+    }, [token, navigate]);
 
     const handleLogout = () => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("role");
-        localStorage.removeItem("idusers");
+        try {
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("role");
+            localStorage.removeItem("idusers");
+            localStorage.removeItem("username");
 
-        clearCart();
-        setIsLoggedIn(false);
-        setRole(null);
-        navigate("/login");
+            clearCart();
+            setIsLoggedIn(false);
+            setRole(null);
+            setUsers({});
+            navigate("/login");
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
     };
 
     return (
@@ -48,11 +68,21 @@ function Navigation() {
                 </LinkContainer>
 
                 {role === "user" && (
-                    <>
+                    <NavDropdown
+                        title={`Welcome, User`}
+                        id="user-dropdown"
+                        className="nav-dropdown"
+                        aria-label="User Menu"
+                        aria-expanded={false}
+                    >
                         <LinkContainer to="/order-history">
-                            <BootstrapNav.Link>Order History</BootstrapNav.Link>
+                            <NavDropdown.Item>Order History</NavDropdown.Item>
                         </LinkContainer>
-                    </>
+                        <LinkContainer to="/change-password">
+                            <NavDropdown.Item>Change Password</NavDropdown.Item>
+                        </LinkContainer>
+                        <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                    </NavDropdown>
                 )}
 
                 {role === "admin" && (
