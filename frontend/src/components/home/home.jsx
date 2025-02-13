@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import heroImage from "../Assets/hero.png";
 import "./home.css";
 
 const Home = () => {
@@ -20,11 +21,13 @@ const Home = () => {
 
   return (
     <div className="home">
-      {/* Hero Section */}
       <header className="hero">
-        <h1>Welcome to BK Library</h1>
-        <p>Discover the best books for every reader</p>
-        <Link to="/book" className="explore-btn">Explore Books</Link>
+        <div>
+          <h1>Welcome to BK Library</h1>
+          <p>Discover the best books for every reader</p>
+          <Link to="/book" className="explore-btn">Explore Books</Link>
+        </div>
+        <img src={heroImage} alt="Hero" />
       </header>
 
       {/* Featured Books Section */}

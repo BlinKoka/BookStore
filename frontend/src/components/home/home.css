@@ -2,21 +2,25 @@
   text-align: center;
   padding: 20px;
 }
-
 /* Hero Section */
 .hero {
-  background: linear-gradient(to right, #4CAF50, #2c6e49);
+  display: flex; 
+  justify-content: space-evenly; 
+  align-items: center; 
+  background: linear-gradient(to right, #2c6e49,  #5fff67);
   color: white;
   padding: 50px 20px;
-  text-align: center;
+  text-align: left; 
 }
 
 .hero h1 {
-  font-size: 2.5rem;
+  font-size: 4rem;
+  margin-bottom: 15px;
 }
 
 .hero p {
   font-size: 1.2rem;
+  margin-bottom: 20px;
 }
 
 .explore-btn {
@@ -32,6 +36,14 @@
 .explore-btn:hover {
   background-color: #ddd;
 }
+
+.hero img {
+  width: 30%;
+  height: auto; 
+  object-fit: cover; 
+  border-radius: 8px; 
+}
+
 
 /* Featured Books */
 .featured-books {
