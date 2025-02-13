@@ -27,7 +27,7 @@ const Pages = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/order-history" element={<OrderHistory userId={userId} />} />
-            <Route path="/order-details/:orderId" element={<OrderDetails userId={userId} />} />
+            <Route path="/order-items/:orderId" element={<OrderDetails />} />
         </Routes>
     );
 }

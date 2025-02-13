@@ -2,7 +2,7 @@
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background: #fff !important;
+    background: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -11,7 +11,6 @@
     text-align: center;
     color: #333;
     margin-bottom: 20px;
-    font-size: 24px;
 }
 
 .no-orders {
@@ -26,35 +25,35 @@
 }
 
 .order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: white;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 15px;
     transition: transform 0.2s ease-in-out;
-    border-left: 5px solid #28a745; /* Green accent border */
 }
 
-.order-item p {
-    display: block !important; /* Force block-level display */
-    margin: 5px 0 !important; /* Adds spacing between each line */
+.order-item:hover {
+    transform: scale(1.02);
+}
+
+.order-info p {
+    margin: 5px 0;
+    font-size: 16px;
 }
 
 .view-details {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 12px;
-    background-color: #28a745 !important; /* Green */
-    color: white;
     text-decoration: none;
+    background-color: #28a745; /* ✅ Green Button */
+    color: white;
+    padding: 8px 12px;
     border-radius: 5px;
     font-weight: bold;
-    transition: background 0.3s;
-    border: none;
-    cursor: pointer;
-    text-align: center;
 }
 
 .view-details:hover {
-    background-color: #218838; /* Darker Green */
+    background-color: #218838;
 }

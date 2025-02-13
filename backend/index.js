@@ -204,25 +204,32 @@ app.get("/order-items/:orderId", (req, res) => {
     const orderId = req.params.orderId;
     console.log("Fetching order items for orderId:", orderId);
 
+    if (!orderId) {
+        return res.status(400).json({ error: "Invalid order ID" });
+    }
+
     const query = `
         SELECT oi.*, b.title, b.cover AS image, b.price
         FROM order_items oi
         JOIN books b ON oi.book_id = b.id
-        WHERE oi.order_id = ?`;
+        WHERE oi.order_id = ?`; // ✅ FIXED: Now uses the dynamic orderId
 
     db.query(query, [orderId], (err, results) => {
         if (err) {
-            console.error("Error fetching order items:", err);
-            res.status(500).json({ error: "Failed to retrieve order items" });
-        } else if (results.length === 0) {
-            console.log("No items found for orderId:", orderId); // Log if no items are found
-            res.status(404).json({ error: "No items found for this order" });
-        } else {
-            console.log("Order Items:", results); // Log the results
-            res.json(results);
+            console.error("❌ Database Error:", err.sqlMessage);
+            return res.status(500).json({ error: "Failed to retrieve order items" });
         }
+
+        if (results.length === 0) {
+            console.log("ℹ️ No items found for orderId:", orderId);
+            return res.status(404).json({ error: "No items found for this order" });
+        }
+
+        console.log("✅ Order Items Retrieved:", results);
+        res.json(results);
     });
 });
+
 
 app.post("/checkout", (req, res) => {
     const { user_id } = req.body;

@@ -3,8 +3,9 @@ import axios from "axios";
 import "./OrderHistory.css";
 import { Link } from "react-router-dom";
 
-const OrderHistory = ({ userId }) => {
+const OrderHistory = () => {
     const [orders, setOrders] = useState([]);
+    const userId = localStorage.getItem("idusers"); // ✅ Get userId directly from localStorage
 
     useEffect(() => {
         if (!userId) return;
@@ -27,10 +28,12 @@ const OrderHistory = ({ userId }) => {
                 <ul className="order-list">
                     {orders.map(order => (
                         <li key={order.id} className="order-item">
-                            <p><strong>Order ID:</strong> {order.id}</p>
-                            <p><strong>Total Price:</strong> ${order.total_price}</p>
-                            <p><strong>Date:</strong> {new Date(order.created_at).toLocaleDateString()}</p>
-                            <Link to={`/order-details/${order.id}`} className="view-details">
+                            <div className="order-info">
+                                <p><strong>Order ID:</strong> {order.id}</p>
+                                <p><strong>Total Price:</strong> ${order.total_price.toFixed(2)}</p>
+                                <p><strong>Date:</strong> {new Date(order.created_at).toLocaleDateString()}</p>
+                            </div>
+                            <Link to={`/order-items/${order.idorder}`} className="view-details">
                                 View Details
                             </Link>
                         </li>
