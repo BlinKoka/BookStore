@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../CartContext";
+import logo from '../components/Assets/logo.PNG'
 import "./nav.css";
 
 function Navigation() {
@@ -57,7 +58,11 @@ function Navigation() {
 
     return (
         <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="/">BK Library</Navbar.Brand>
+            <Navbar.Brand href="/"><img src={logo}
+                alt="Brand Logo"  
+                className="navbar-logo"
+                />
+            </Navbar.Brand>
 
             <div className="navbar-nav">
                 <LinkContainer to="/">

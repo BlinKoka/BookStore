@@ -1,6 +1,6 @@
 import "./LoginSignup.css";
 import Axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -10,9 +10,24 @@ function Login() {
   const [loginStatus, setLoginStatus] = useState("");
   const [registerStatus, setRegisterStatus] = useState("");
   const [showRegisterForm, setShowRegisterForm] = useState(false);
-  const [, setIsLoggedIn] = useState(false); // Track login state
+  const [, setIsLoggedIn] = useState(false);
+  const [welcomeText, setWelcomeText] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const navigate = useNavigate();
+  const welcomeMessage = "Welcome to BK Library!";
+
+  // Animate welcome text
+  useEffect(() => {
+    if (currentIndex < welcomeMessage.length) {
+      const timeout = setTimeout(() => {
+        setWelcomeText((prev) => prev + welcomeMessage[currentIndex]);
+        setCurrentIndex((prev) => prev + 1);
+      }, 100);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [currentIndex, welcomeMessage]);
 
   // Register Function
   const register = (e) => {
@@ -23,16 +38,9 @@ function Login() {
       password: password,
     })
       .then((response) => {
-        if (response.data.message) {
-          setRegisterStatus(response.data.message);
-        } else {
-          setRegisterStatus("Account created successfully");
-        }
+        setRegisterStatus(response.data.message || "Account created successfully");
       })
-      .catch((error) => {
-        console.log(error);
-        setRegisterStatus("An error occurred.");
-      });
+      .catch(() => setRegisterStatus("An error occurred."));
   };
 
   // Login Function
@@ -47,134 +55,57 @@ function Login() {
       } else {
         setLoginStatus("Login was successful");
         localStorage.setItem("accessToken", response.data.accessToken);
-        localStorage.setItem("role", response.data.role); // Set the role in localStorage
+        localStorage.setItem("role", response.data.role);
         localStorage.setItem("idusers", response.data.idusers);
-        setIsLoggedIn(true); // Update login state
+        setIsLoggedIn(true);
         navigate("/");
       }
     });
   };
 
-  // Toggle between Register and Login Forms
-  const toggleRegisterForm = () => {
-    setShowRegisterForm(!showRegisterForm);
-  };
-
   return (
-    <div className="container app__bg" id="login">
-      {showRegisterForm ? (
-        <div className="registerForm">
-          <form onSubmit={register}>
-            <h4>Register Here</h4>
-            <label htmlFor="email">Email: </label>
-            <input
-              className="textInput"
-              type="email"
-              name="email"
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter email"
-              required
-              value={email || ""}
-            />
-            <label htmlFor="username">Username: </label>
-            <input
-              className="textInput"
-              type="text"
-              name="username"
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter username"
-              required
-              value={username || ""}
-            />
-            <label htmlFor="password">Password: </label>
-            <input
-              className="textInput"
-              type="password"
-              name="password"
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
-              autoComplete="current-password"
-              required
-              value={password || ""}
-            />
-            <input
-              className="button"
-              type="submit"
-              value="Register"
-            />
-            <p>
-              Already have an account?{" "}
-              <b>
-                <button
-                  type="button"
-                  style={{
-                    textDecoration: "none",
-                    color: "white",
-                    backgroundColor: "#2c6e49",
-                    fontSize: "14px",
-                    borderRadius: "12px"
-                  }}
-                  onClick={toggleRegisterForm}
-                >
-                  Login here
-                </button>
-              </b>
-            </p>
-            <p
-              style={{ color: registerStatus.includes("taken") ? "red" : "green" }}
-            >
-              {registerStatus}
-            </p>
-          </form>
+    <div className="container">
+      {/* Left Side: Welcome Text */}
+      <div className="welcome-container">
+        <div className="static-welcome-message">
+          <div className="welcome-text">
+            <h1>{welcomeText}</h1>
+          </div>
+          <h2>Welcome to BK Library – Your Gateway to Infinite Knowledge!</h2>
+          <p>Dive into a world of endless stories, timeless classics, and cutting-edge insights.</p>
+          <p>📚 <strong>Discover</strong> a vast collection of eBooks across genres.</p>
+          <p>🌟 <strong>Explore</strong> new worlds, ideas, and perspectives.</p>
+          <p>💡 <strong>Learn</strong> something new every day.</p>
         </div>
-      ) : (
-        <div className="loginForm">
-          <form onSubmit={login}>
-            <h4>Login Here</h4>
-            <label htmlFor="username">Username: </label>
-            <input
-              className="textInput"
-              type="text"
-              name="username"
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter username"
-              required
-              value={username || ""}
-            />
-            <label htmlFor="password">Password: </label>
-            <input
-              className="textInput"
-              type="password"
-              name="password"
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
-              autoComplete="current-password"
-              required
-              value={password || ""}
-            />
-            <input
-              className="button"
-              type="submit"
-              value="Login"
-            />
-            <p>
-              Don't have an account?{" "}
-              <b>
-                <button
-                  type="button"
-                  className="ahref"
-                  onClick={toggleRegisterForm}
-                >
-                  Register here
-                </button>
-              </b>
-            </p>
-            <p style={{ color: "red" }} className="statusMessage">
-              {loginStatus}
-            </p>
-          </form>
-        </div>
-      )}
+      </div>
+
+      {/* Right Side: Login/Register Form */}
+      <div className="form-container">
+        {showRegisterForm ? (
+          <div className="registerForm">
+            <form onSubmit={register}>
+              <h4>Register Here</h4>
+              <input type="email" name="email" placeholder="Enter email" required value={email} onChange={(e) => setEmail(e.target.value)} className="textInput" />
+              <input type="text" name="username" placeholder="Enter username" required value={username} onChange={(e) => setUsername(e.target.value)} className="textInput" />
+              <input type="password" name="password" placeholder="Enter password" required value={password} onChange={(e) => setPassword(e.target.value)} className="textInput" />
+              <input type="submit" value="Register" className="button" />
+              <p>Already have an account? <button type="button" className="switch-btn" onClick={() => setShowRegisterForm(false)}>Login here</button></p>
+              <p className="statusMessage">{registerStatus}</p>
+            </form>
+          </div>
+        ) : (
+          <div className="loginForm">
+            <form onSubmit={login}>
+              <h4>Login Here</h4>
+              <input type="text" name="username" placeholder="Enter username" required value={username} onChange={(e) => setUsername(e.target.value)} className="textInput" />
+              <input type="password" name="password" placeholder="Enter password" required value={password} onChange={(e) => setPassword(e.target.value)} className="textInput" />
+              <input type="submit" value="Login" className="button" />
+              <p>Don't have an account? <button type="button" className="switch-btn" onClick={() => setShowRegisterForm(true)}>Register here</button></p>
+              <p className="statusMessage">{loginStatus}</p>
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
