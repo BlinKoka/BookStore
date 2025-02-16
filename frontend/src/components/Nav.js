@@ -1,35 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { Navbar, Nav as BootstrapNav, NavDropdown } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Navbar, Nav as BootstrapNav, NavDropdown, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../CartContext";
-import logo from '../components/Assets/logo.PNG'
+import logo from '../components/Assets/logo.PNG';
 import "./nav.css";
 
 function Navigation() {
-    const [,setUsers] = useState({});
+    const [, setUsers] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [role, setRole] = useState(null);
     const { cartItems, clearCart } = useCart();
     const navigate = useNavigate();
 
-    // Extract the token into a variable
     const token = localStorage.getItem("accessToken");
 
+    // State for managing dropdown toggles
+    const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
+    const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+
     useEffect(() => {
-        console.log("Token from localStorage:", token);
-        console.log("Username from localStorage:", localStorage.getItem("username"));
-        console.log("Role from localStorage:", localStorage.getItem("role"));
-
-        if (!token) {
-            navigate("/login"); // Redirect to login if no token is found
-            return;
+        if (token) {
+            setIsLoggedIn(true);
+            setRole(localStorage.getItem("role"));
         }
-
-        setIsLoggedIn(true);
-        setRole(localStorage.getItem("role"));
 
         const userData = {
             username: localStorage.getItem("username"),
@@ -56,12 +52,21 @@ function Navigation() {
         }
     };
 
+    const toggleDropdown = (dropdownType) => {
+        if (dropdownType === "admin") {
+            setAdminDropdownOpen(!adminDropdownOpen);
+            setUserDropdownOpen(false);
+        } else if (dropdownType === "user") {
+            setUserDropdownOpen(!userDropdownOpen);
+            setAdminDropdownOpen(false);
+        }
+    };
+
     return (
-        <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="/"><img src={logo}
-                alt="Brand Logo"  
-                className="navbar-logo"
-                />
+        <Navbar  expand="lg">
+            <Container fluid>
+            <Navbar.Brand href="/">
+                <img src={logo} alt="Brand Logo" className="navbar-logo" />
             </Navbar.Brand>
 
             <div className="navbar-nav">
@@ -77,8 +82,8 @@ function Navigation() {
                         title={`Welcome, User`}
                         id="user-dropdown"
                         className="nav-dropdown"
-                        aria-label="User Menu"
-                        aria-expanded={false}
+                        show={userDropdownOpen}
+                        onClick={() => toggleDropdown("user")}
                     >
                         <LinkContainer to="/order-history">
                             <NavDropdown.Item>Order History</NavDropdown.Item>
@@ -91,7 +96,13 @@ function Navigation() {
                 )}
 
                 {role === "admin" && (
-                    <NavDropdown title="Admin Dashboard" id="basic-nav-dropdown" className="nav-dropdown">
+                    <NavDropdown
+                        title="Admin Dashboard"
+                        id="basic-nav-dropdown"
+                        className="nav-dropdown"
+                        show={adminDropdownOpen}
+                        onClick={() => toggleDropdown("admin")}
+                    >
                         <LinkContainer to="/booklist">
                             <NavDropdown.Item className="no-text-decoration">Book List</NavDropdown.Item>
                         </LinkContainer>
@@ -120,6 +131,7 @@ function Navigation() {
                     </LinkContainer>
                 )}
             </div>
+            </Container>
         </Navbar>
     );
 }

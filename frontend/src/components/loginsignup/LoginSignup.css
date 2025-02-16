@@ -1,11 +1,12 @@
 /* Overall Layout */
-.container {
+.custom-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100vh;
-  background-color: hsl(0, 0%, 98%);
-  padding: 0 10%;
+  height: 100vh!important;
+  background-color: hsl(0, 0%, 98%)!important;
+  padding: 0 10%!important;
+  max-width: 100%!important;
 }
 
 /* Welcome Text (Left Side) */
@@ -13,7 +14,7 @@
   flex: 1;
   max-width: 50%;
   text-align: left;
-  color: #2c6e49;
+  color: #2c6e49!important;
 }
 
 .static-welcome-message h2 {
@@ -30,7 +31,7 @@
 /* Animated Welcome Text */
 .welcome-text h1 {
   font-size: 2rem;
-  color: #2c6e49;
+  color: #2c6e49!important;
   overflow: hidden;
   white-space: nowrap;
   letter-spacing: 0.15em;
@@ -39,15 +40,15 @@
 /* Form Container (Right Side) */
 .form-container {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  text-align: center;
+  display: flex!important;
+  justify-content: center!important;
+  text-align: center!important;
 }
 
 .registerForm, .loginForm {
-  width: 480px;
-  background-color: rgb(204, 251, 182);
-  padding: 22px;
+  width: 500px!important;
+  background-color: rgb(204, 251, 182)!important;
+  padding: 50px;
   border-radius: 15px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   display: flex;
@@ -56,37 +57,37 @@
 }
 
 h4 {
-  font-size: 24px;
-  color: #2c6e49;
-  margin-bottom: 15px;
-  text-align: center;
+  font-size: 25px;
+  color: #2c6e49!important;
+  margin-bottom: 15px!important;
+  text-align: center!important;
 }
 
 .textInput {
-  width: 80%;
-  height: 40px;
-  text-align: center;
-  padding: 10px;
+  width: 100%;
+  height: 50px;
+  text-align: center!important;
+  padding: 10px!important;
   margin-bottom: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   border: 1px solid #ccc;
   font-size: 16px;
 }
 
 .button {
-  width: 85%;
-  padding: 10px;
+  width: 100%!important;
+  padding: 10px!important;
   margin-top: 10px;
-  background-color: #2c6e49;
-  color: white;
+  background-color: #2c6e49!important;
+  color: white!important;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 18px;
 }
 
 .button:hover {
-  background-color: #1f4d35;
+  background-color: #1f4d35!important;
 }
 
 .statusMessage {
@@ -96,13 +97,13 @@ h4 {
 }
 
 .switch-btn {
-  background: none;
+  background: none!important;
   border: none;
-  color: #2c6e49;
-  font-size: 14px;
-  cursor: pointer;
+  color: #2c6e49!important;
+  font-size: 18px;
+  cursor: pointer!important;
 }
 
 .switch-btn:hover {
-  text-decoration: underline;
+  text-decoration: underline!important;
 }

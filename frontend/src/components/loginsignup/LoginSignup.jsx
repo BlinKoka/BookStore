@@ -64,7 +64,7 @@ function Login() {
   };
 
   return (
-    <div className="container">
+    <div className="custom-container">
       {/* Left Side: Welcome Text */}
       <div className="welcome-container">
         <div className="static-welcome-message">
