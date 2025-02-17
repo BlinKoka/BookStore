@@ -149,7 +149,7 @@
   background-color: white;
   color: #2c6e49;
   border: none;
-  padding: 5px 15px;
+  padding: 5px 15px!important;
   font-size: 16px;
   border-radius: 5px;
   cursor: pointer;

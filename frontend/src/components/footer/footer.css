@@ -4,7 +4,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 10px 0; 
+    padding: 10px 0!important; 
     gap: 5px;
 }
 
@@ -12,20 +12,13 @@
 .footer-logo {
     display: flex;
     align-items: center;
-    gap: 8px; 
+    gap: 2px; 
 }
 
 .footer-logo img {
-    width: 70px; 
+    width: 85px; 
     height: auto; 
 }
-
-.footer-logo p {
-    color: #383838;
-    font-size: 24px; 
-    font-weight: 600;
-}
-
 
 .footer-links {
     display: flex;
@@ -45,7 +38,7 @@
 }
 
 .footer-links li a:hover {
-    color: #fff; 
+    color: #fff!important; 
 }
 
 

@@ -45,6 +45,7 @@ const Cart = () => {
     };
     
     return (
+        <div className="main-container">
         <div className="cart">
             <h1>Your Cart</h1>
             {cartItems.length === 0 ? (
@@ -69,6 +70,7 @@ const Cart = () => {
                     <button onClick={handleCheckout}>Proceed to Checkout</button>
                 </div>
             )}
+        </div>
         </div>
     );
 };
