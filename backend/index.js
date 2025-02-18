@@ -195,7 +195,7 @@ app.delete("/cart/remove/:idcart", (req, res) => {
     });
 });
 
-// ✅ Clear cart on logout
+// Clear cart on logout
 app.delete("/cart/clear/:userId", (req, res) => {
     const { userId } = req.params;
     const sql = "DELETE FROM cart WHERE user_id = ?";
@@ -205,16 +205,39 @@ app.delete("/cart/clear/:userId", (req, res) => {
     });
 });
 
+// Get all orders (Admin)
+app.get("/orders", (req, res) => {
+    db.query("SELECT * FROM orders", (err, data) => {
+        if (err) return res.status(500).json(err);
+        res.status(200).json(data);
+    });
+});
+// Get orders by user (User Order History)
 app.get("/orders/:userId", (req, res) => {
     const { userId } = req.params;
     const sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC";
     
     db.query(sql, [userId], (err, result) => {
         if (err) return res.status(500).json(err);
-        console.log("Orders:", result); // Log the results
+        console.log("Orders:", result); 
         res.json(result);
     });
 });
+
+// Update order status
+app.put("/orders/:orderId", async (req, res) => {
+    const { orderId } = req.params;  
+    const { status } = req.body;
+
+    try {
+        await db.query("UPDATE orders SET status = ? WHERE idorder = ?", [status, orderId]);
+        res.json({ message: "Order status updated successfully" });
+    } catch (error) {
+        console.error("Error updating order status:", error);
+        res.status(500).json({ message: "Failed to update order status" });
+    }
+});
+
 
 app.get("/order-items/:orderId", (req, res) => {
     const orderId = req.params.orderId;

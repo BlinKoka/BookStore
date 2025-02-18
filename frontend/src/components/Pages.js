@@ -12,6 +12,7 @@ import Checkout from "./Checkout";
 import OrderHistory from './order/OrderHistory';
 import OrderDetails from './order/OrderDetails';
 import ChangePassword from './users/ChangePassword';
+import OrderList from './order/OrderList';
 
 const Pages = () => {
     const userId = 1;
@@ -30,6 +31,7 @@ const Pages = () => {
             <Route path="/order-history" element={<OrderHistory userId={userId} />} />
             <Route path="/order-items/:orderId" element={<OrderDetails />} />
             <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/orders" element={<OrderList />} />
         </Routes>
     );
 }

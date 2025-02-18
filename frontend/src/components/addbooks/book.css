@@ -70,44 +70,6 @@ button {
   margin: 5px auto!important;
   transition: background-color 0.2s ease-in-out;
 }
-
-.delete {
-  background-color: #ff4d4d; /* Red for delete button */
-  color: white;
-}
-
-.delete:hover {
-  background-color: #cc0000; /* Darker red on hover */
-}
-
-.update {
-  background-color: #2e8b57; /* Green for update button */
-  color: white;
-}
-
-.update:hover {
-  background-color: #1f6f4a; /* Darker green on hover */
-}
-
-.add {
-  display: block!important;
-  margin: 20px auto!important;
-  background-color: #2e8b57!important; /* Green for add button */
-  color: white;
-  padding: 15px 25px;
-  font-size: 1.2em;
-}
-
-.add:hover {
-  background-color: #1f6f4a!important; /* Darker green on hover */
-}
-
-/* Link styles */
-a {
-  text-decoration: none!important;
-  color: inherit!important;
-}
-
 /* Button styles */
 .add-to-cart, .go-to-cart {
     border: none!important;

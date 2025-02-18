@@ -109,6 +109,9 @@ function Navigation() {
                         <LinkContainer to="/userlist">
                             <NavDropdown.Item className="no-text-decoration">User List</NavDropdown.Item>
                         </LinkContainer>
+                        <LinkContainer to="/orders">
+                            <NavDropdown.Item className="no-text-decoration">Order List</NavDropdown.Item>
+                        </LinkContainer>
                     </NavDropdown>
                 )}
             </div>
