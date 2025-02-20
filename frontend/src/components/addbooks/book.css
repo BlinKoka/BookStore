@@ -101,11 +101,10 @@ button {
     background-color: rgb(100, 169, 102); 
     transform: translateY(-3px); 
 }
-/* book.css */
 
 /* General Form Styles */
 .form {
-    max-width: 400px!important;
+    width: 25%!important;
     margin: 0 auto;
     padding: 25px;
     margin-top: 80px;
@@ -172,23 +171,6 @@ button {
   button.formButton:disabled {
     background-color: #ccc;
     cursor: not-allowed;
-  }
-  
-  /* Styling for the Add and Update pages */
-  .form h1 {
-    color: #1b4d35 ;
-  }
-  
-  button.formButton {
-    background-color: #28a745;
-  }
-  
-  button.formButton:hover {
-    background-color: #218838;
-  }
-  
-  input[type="file"] {
-    margin-bottom: 10px;
   }
   
   /* Small Screen Responsiveness */

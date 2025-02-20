@@ -58,6 +58,7 @@ function Userlist() {
 
     return (
         <div className="app__bg">
+            <h2>Admin User Management</h2>
             <table>
                 <thead>
                     <tr>
