@@ -13,6 +13,9 @@ import OrderHistory from './order/OrderHistory';
 import OrderDetails from './order/OrderDetails';
 import ChangePassword from './users/ChangePassword';
 import OrderList from './order/OrderList';
+import AddRecommendation from './Recommended/addrecommended';
+import RecommendationList from './Recommended/RecommendationList';
+import UpdateRecommendation from './Recommended/updaterecommendation';
 
 const Pages = () => {
     const userId = 1;
@@ -32,6 +35,9 @@ const Pages = () => {
             <Route path="/order-items/:orderId" element={<OrderDetails />} />
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/orders" element={<OrderList />} />
+            <Route path="/add-recommendation" element={<AddRecommendation />} />
+            <Route path="/recommendations" element={<RecommendationList />} />
+            <Route path="/update-recommendation/:id" element={<UpdateRecommendation />} />
         </Routes>
     );
 }

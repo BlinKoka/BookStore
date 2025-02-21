@@ -106,6 +106,9 @@ function Navigation() {
                         <LinkContainer to="/booklist">
                             <NavDropdown.Item className="no-text-decoration">Book List</NavDropdown.Item>
                         </LinkContainer>
+                        <LinkContainer to="/recommendations">
+                            <NavDropdown.Item className="no-text-decoration">Recommendation List</NavDropdown.Item>
+                        </LinkContainer>
                         <LinkContainer to="/userlist">
                             <NavDropdown.Item className="no-text-decoration">User List</NavDropdown.Item>
                         </LinkContainer>
