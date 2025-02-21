@@ -47,13 +47,13 @@
 
 .view-details {
     text-decoration: none;
-    background-color: #28a745; /* ✅ Green Button */
-    color: white;
+    background-color: #28a745!important; /* ✅ Green Button */
+    color: white!important;
     padding: 8px 12px;
-    border-radius: 5px;
+    border-radius: 5px!important;
     font-weight: bold;
 }
 
 .view-details:hover {
-    background-color: #218838;
+    background-color: #218838!important;
 }

@@ -16,6 +16,7 @@ import OrderList from './order/OrderList';
 import AddRecommendation from './Recommended/addrecommended';
 import RecommendationList from './Recommended/RecommendationList';
 import UpdateRecommendation from './Recommended/updaterecommendation';
+import RecommendedBooks from './Recommended/RecommendedBooks';
 
 const Pages = () => {
     const userId = 1;
@@ -38,6 +39,7 @@ const Pages = () => {
             <Route path="/add-recommendation" element={<AddRecommendation />} />
             <Route path="/recommendations" element={<RecommendationList />} />
             <Route path="/update-recommendation/:id" element={<UpdateRecommendation />} />
+            <Route path="/recommendedbook" element={<RecommendedBooks/>} /> 
         </Routes>
     );
 }

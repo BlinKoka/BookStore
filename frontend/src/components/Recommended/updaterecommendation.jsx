@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import "./rec.css";
 
 export const UpdateRecommendation = () => {
     const [recommendation, setRecommendation] = useState({
@@ -35,6 +36,7 @@ export const UpdateRecommendation = () => {
 
     const handleChange = (e) => {
         setRecommendation((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        console.log("Updated State:", { ...recommendation, [e.target.name]: e.target.value });
     };
 
     const handleClick = async (e) => {

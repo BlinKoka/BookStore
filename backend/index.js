@@ -290,7 +290,7 @@ app.post("/checkout", (req, res) => {
 
 app.get("/recommendations", (req, res) => {
     const query = `
-        SELECT r.id, r.reason, b.id AS book_id, b.title, b.cover, b.desc 
+        SELECT r.id, r.reason, b.id AS book_id, b.title, b.cover, b.desc, b.price 
         FROM recommendations r
         JOIN books b ON r.book_id = b.id
     `;
@@ -320,14 +320,20 @@ app.put("/recommendations/:id", (req, res) => {
     const { id } = req.params;
     const { book_id, reason } = req.body;
 
+    console.log("Received Data:", req.body); // Debugging log
+
     db.query("SELECT * FROM books WHERE id = ?", [book_id], (err, result) => {
         if (err) return res.status(500).json(err);
         if (result.length === 0) return res.status(404).json({ message: "Book not found" });
 
-        db.query("UPDATE recommendations SET book_id = ?, reason = ? WHERE id = ?", [book_id, reason, id], (err) => {
-            if (err) return res.status(500).json(err);
-            res.status(200).json({ message: "Recommendation updated successfully" });
-        });
+        db.query("UPDATE recommendations SET book_id = ?, reason = ? WHERE id = ?", 
+            [book_id, reason, id], 
+            (err, updateResult) => {
+                if (err) return res.status(500).json(err);
+                console.log("Update Result:", updateResult); // Debugging log
+                res.status(200).json({ message: "Recommendation updated successfully" });
+            }
+        );
     });
 });
 app.delete("/recommendations/:id", (req, res) => {
