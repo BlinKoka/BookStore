@@ -341,12 +341,26 @@ app.delete("/recommendations/:id", (req, res) => {
     });
 });
 
+// Get all reviews
+app.get("/reviews", (req, res) => {
+    const query = "SELECT * FROM reviews";
+    db.query(query, (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.status(200).json(result);
+    });
+});
+// Add a new review
 app.post("/reviews", (req, res) => {
     const { book_id, user_id, rating, comment } = req.body;
 
+    // Validate user is logged in
+    if (!user_id) {
+        return res.status(401).json({ message: "You must be logged in to submit a review." });
+    }
+
     // Validate rating
     if (rating < 1 || rating > 5) {
-        return res.status(400).json({ message: "Rating must be between 1 and 5" });
+        return res.status(400).json({ message: "Rating must be between 1 and 5." });
     }
 
     const query = "INSERT INTO reviews (book_id, user_id, rating, comment) VALUES (?, ?, ?, ?)";
@@ -355,6 +369,7 @@ app.post("/reviews", (req, res) => {
         res.status(201).json({ message: "Review added successfully", reviewId: result.insertId });
     });
 });
+// Get reviews for a specific book
 app.get("/reviews/book/:bookId", (req, res) => {
     const { bookId } = req.params;
 
@@ -370,6 +385,7 @@ app.get("/reviews/book/:bookId", (req, res) => {
         res.status(200).json(results);
     });
 });
+// Update a review
 app.put("/reviews/:reviewId", (req, res) => {
     const { reviewId } = req.params;
     const { rating, comment } = req.body;
@@ -379,17 +395,17 @@ app.put("/reviews/:reviewId", (req, res) => {
         return res.status(400).json({ message: "Rating must be between 1 and 5" });
     }
 
-    const query = "UPDATE reviews SET rating = ?, comment = ? WHERE id = ?";
+    const query = "UPDATE reviews SET rating = ?, comment = ? WHERE idreviews = ?";
     db.query(query, [rating, comment, reviewId], (err, result) => {
         if (err) return res.status(500).json(err);
         if (result.affectedRows === 0) return res.status(404).json({ message: "Review not found" });
         res.status(200).json({ message: "Review updated successfully" });
     });
 });
+// Delete a review
 app.delete("/reviews/:reviewId", (req, res) => {
     const { reviewId } = req.params;
-
-    const query = "DELETE FROM reviews WHERE id = ?";
+    const query = "DELETE FROM reviews WHERE idreviews = ?";
     db.query(query, [reviewId], (err, result) => {
         if (err) return res.status(500).json(err);
         if (result.affectedRows === 0) return res.status(404).json({ message: "Review not found" });

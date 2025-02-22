@@ -1,7 +1,8 @@
 import "./LoginSignup.css";
 import Axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../UserContext"; 
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -10,11 +11,11 @@ function Login() {
   const [loginStatus, setLoginStatus] = useState("");
   const [registerStatus, setRegisterStatus] = useState("");
   const [showRegisterForm, setShowRegisterForm] = useState(false);
-  const [,setIsLoggedIn] = useState(false);
   const [welcomeText, setWelcomeText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext); // Get setUser from UserContext
   const welcomeMessage = "Welcome to BK Library!";
 
   // Animate welcome text
@@ -68,7 +69,13 @@ function Login() {
           localStorage.setItem("idusers", response.data.idusers);
           localStorage.setItem("username", response.data.username);
 
-          setIsLoggedIn(true); // Update login status
+          // Update user context
+          setUser({
+            id: response.data.idusers,
+            username: response.data.username,
+            role: response.data.role,
+          });
+
           setLoginStatus("Login successful");
 
           // Redirect to home page after a short delay

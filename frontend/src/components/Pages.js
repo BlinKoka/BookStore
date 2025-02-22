@@ -17,8 +17,8 @@ import AddRecommendation from './Recommended/addrecommended';
 import RecommendationList from './Recommended/RecommendationList';
 import UpdateRecommendation from './Recommended/updaterecommendation';
 import RecommendedBooks from './Recommended/RecommendedBooks';
-import ReviewForm from './reviews/reviewform';
-import BookReviews from './reviews/bookreviews';
+import BookDetailsPage from './BookDetailsPage';
+import ReviewList from './reviews/ReviewList';
 
 const Pages = () => {
     const userId = 1;
@@ -28,6 +28,7 @@ const Pages = () => {
             <Route path="/" element={<Home />} />
             <Route path="/book" element={<Book />} /> 
             <Route path="/booklist" element={<Books />} />
+            <Route path="/books/:id" element={<BookDetailsPage />} />
             <Route path="/userlist" element={<Userlist />} />
             <Route path="/add" element={<Add />} />
             <Route path="/update/:id" element={<Update />} />
@@ -42,8 +43,7 @@ const Pages = () => {
             <Route path="/recommendations" element={<RecommendationList />} />
             <Route path="/update-recommendation/:id" element={<UpdateRecommendation />} />
             <Route path="/recommendedbook" element={<RecommendedBooks/>} />
-            <Route path="/reviews" element={<ReviewForm/>} /> 
-            <Route path="/bookreviews" element={<BookReviews/>} />  
+            <Route path="/reviewlist" element={<ReviewList />} />
         </Routes>
     );
 }

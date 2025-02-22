@@ -6,7 +6,7 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../CartContext";
 import logo from '../components/Assets/logo.PNG';
-import "./nav.css";
+import "../components/CSS/nav.css";
 
 function Navigation() {
     const [user, setUser] = useState({});
@@ -116,6 +116,9 @@ function Navigation() {
                             </LinkContainer>
                             <LinkContainer to="/userlist">
                                 <NavDropdown.Item className="no-text-decoration">User List</NavDropdown.Item>
+                            </LinkContainer>
+                            <LinkContainer to="/reviewlist">
+                                <NavDropdown.Item className="no-text-decoration">Review List</NavDropdown.Item>
                             </LinkContainer>
                             <LinkContainer to="/orders">
                                 <NavDropdown.Item className="no-text-decoration">Order List</NavDropdown.Item>

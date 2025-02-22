@@ -1,21 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
-import "./ReviewForm.css"; // Import the CSS file
+import { UserContext } from "../../UserContext"; // Import UserContext
+import "./ReviewForm.css";
 
-const ReviewForm = ({ bookId, userId }) => {
+const ReviewForm = ({ bookId }) => {
+    const { user } = useContext(UserContext); // Get logged-in user
     const [rating, setRating] = useState(5);
     const [comment, setComment] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!user) {
+            alert("You must be logged in to submit a review.");
+            return;
+        }
+    
         try {
             const response = await axios.post("http://localhost:3001/reviews", {
                 book_id: bookId,
-                user_id: userId,
+                user_id: user.id, // Use the logged-in user's ID
                 rating,
                 comment,
             });
+
+            console.log("Review submitted successfully:", response.data);
             alert("Review submitted successfully!");
+    
+
             setRating(5);
             setComment("");
         } catch (error) {
@@ -24,8 +35,12 @@ const ReviewForm = ({ bookId, userId }) => {
         }
     };
 
+    if (!user) {
+        return <p>Please <a href="/login">log in</a> to leave a review.</p>;
+    }
+
     return (
-        <div className="review-form"> {/* Add the CSS class here */}
+        <div className="review-form">
             <h3>Leave a Review</h3>
             <form onSubmit={handleSubmit}>
                 <div>
