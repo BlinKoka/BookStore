@@ -1,0 +1,44 @@
+.book-reviews {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .book-reviews h3 {
+    text-align: center;
+    color: #2e8b57; /* Green color for the heading */
+    margin-bottom: 20px;
+  }
+  
+  .review-item {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .review-item:last-child {
+    border-bottom: none; /* Remove border for the last item */
+  }
+  
+  .review-item p {
+    margin: 5px 0;
+    color: #333;
+  }
+  
+  .review-item p strong {
+    color: #2e8b57; /* Green color for the username */
+  }
+  
+  .review-item p small {
+    color: #777;
+    font-size: 0.9rem;
+  }
+  
+  .no-reviews {
+    text-align: center;
+    color: #777;
+    font-style: italic;
+  }
+  

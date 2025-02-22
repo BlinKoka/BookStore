@@ -44,7 +44,6 @@ app.get("/books", (req, res) => {
         res.status(200).json(data);
     });
 });
-
 // Get book by ID
 app.get("/books/:id", (req, res) => {
     const { id } = req.params;
@@ -54,7 +53,6 @@ app.get("/books/:id", (req, res) => {
         res.status(200).json(data[0]);
     });
 });
-
 // Add a new book
 app.post("/books", upload.single("cover"), (req, res) => {
     const { title, desc, price } = req.body;
@@ -65,7 +63,6 @@ app.post("/books", upload.single("cover"), (req, res) => {
         res.status(201).json({ message: "Book added successfully" });
     });
 });
-
 // Update book
 app.put("/books/:id", upload.single("cover"), (req, res) => {
     const { id } = req.params;
@@ -76,7 +73,6 @@ app.put("/books/:id", upload.single("cover"), (req, res) => {
         res.status(200).json("Book updated successfully");
     });
 });
-
 // Delete book
 app.delete("/books/:id", (req, res) => {
     db.query("DELETE FROM books WHERE id = ?", [req.params.id], (err, data) => {
@@ -93,7 +89,6 @@ app.get("/users", (req, res) => {
         res.send(result);
     });
 });
-
 app.post("/registerUser", (req, res) => {
     const { username, email, password } = req.body;
     const role = "user";
@@ -108,7 +103,6 @@ app.post("/registerUser", (req, res) => {
         });
     });
 });
-
 app.put("/updateUser/:idusers", (req, res) => {
     const id = req.params.idusers;
     const { email, username } = req.body;
@@ -119,7 +113,6 @@ app.put("/updateUser/:idusers", (req, res) => {
         else res.send("User not found");
     });
 });
-
 app.delete("/delete/:idusers", (req, res) => {
     const id = req.params.idusers;
 
@@ -129,7 +122,6 @@ app.delete("/delete/:idusers", (req, res) => {
         else res.send("User not found");
     });
 });
-
 app.post("/login", (req, res) => {
     const { username, password } = req.body;
 
@@ -142,7 +134,6 @@ app.post("/login", (req, res) => {
         res.cookie("accessToken", token, { httpOnly: false }).status(200).json({ ...others, token });
     });
 });
-
 app.post("/change-password", (req, res) => {
     const { userId, currentPassword, newPassword } = req.body;
 
@@ -165,7 +156,6 @@ app.get("/cart/:userId", (req, res) => {
         res.json(result);
     });
 });
-
 app.post("/cart/add", (req, res) => {
     const { user_id, book_id, quantity } = req.body;
     db.query("INSERT INTO cart (user_id, book_id, quantity) VALUES (?, ?, ?)", [user_id, book_id, quantity], (err) => {
@@ -173,9 +163,7 @@ app.post("/cart/add", (req, res) => {
         res.json({ message: "Added to cart" });
     });
 });
-
-
-// ✅ Update cart quantity
+// Update cart quantity
 app.put("/cart/update", (req, res) => {
     const { idcart, quantity } = req.body;
     const sql = "UPDATE cart SET quantity = ? WHERE idcart = ?";
@@ -184,8 +172,7 @@ app.put("/cart/update", (req, res) => {
         res.json({ message: "Quantity updated" });
     });
 });
-
-// ✅ Remove item from cart
+// Remove item from cart
 app.delete("/cart/remove/:idcart", (req, res) => {
     const { idcart } = req.params;
     const sql = "DELETE FROM cart WHERE idcart = ?";
@@ -194,7 +181,6 @@ app.delete("/cart/remove/:idcart", (req, res) => {
         res.json({ message: "Item removed" });
     });
 });
-
 // Clear cart on logout
 app.delete("/cart/clear/:userId", (req, res) => {
     const { userId } = req.params;
@@ -240,7 +226,6 @@ app.get("/orders/:userId", (req, res) => {
         res.json(result);
     });
 });
-
 // Update order status
 app.put("/orders/:orderId", async (req, res) => {
     const { orderId } = req.params;  
@@ -254,8 +239,6 @@ app.put("/orders/:orderId", async (req, res) => {
         res.status(500).json({ message: "Failed to update order status" });
     }
 });
-
-
 app.get("/order-items/:orderId", (req, res) => {
     const orderId = req.params.orderId;
     console.log("Fetching order items for orderId:", orderId);
@@ -317,8 +300,6 @@ app.get("/recommendations", (req, res) => {
         res.status(200).json(data);
     });
 });
-
-
 app.post("/recommendations", (req, res) => {
     const { book_id, reason } = req.body;
 
@@ -332,7 +313,6 @@ app.post("/recommendations", (req, res) => {
         });
     });
 });
-
 app.put("/recommendations/:id", (req, res) => {
     const { id } = req.params;
     const { book_id, reason } = req.body;
@@ -360,6 +340,7 @@ app.delete("/recommendations/:id", (req, res) => {
         res.status(200).json({ message: "Recommendation deleted successfully" });
     });
 });
+
 app.post("/reviews", (req, res) => {
     const { book_id, user_id, rating, comment } = req.body;
 
