@@ -1,38 +1,74 @@
 .home {
   text-align: center;
-  padding: 20px!important;
+  padding: 20px;
 }
+
 /* Hero Section */
 .hero {
   display: flex; 
-  justify-content: space-evenly!important; 
+  justify-content: space-evenly; 
   align-items: center; 
-  background: linear-gradient(to right, #2c6e49,  #5fff67);
-  color: white!important;
-  padding: 50px 20px!important;
-  text-align: left; 
+  background: url('/src/components/Assets/bbb.jpg') no-repeat center center/cover; 
+  color: white;
+  padding: 50px 20px;
+  text-align: left;
+  border-radius: 10px; 
+  height: 60vh; 
+  position: relative; 
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit; 
+  filter: blur(8px); 
+  z-index: 1; 
+}
+
+/* Dark overlay */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); 
+  z-index: 2; 
 }
 
 .hero h1 {
   font-size: 4rem;
-  margin-bottom: 15px!important;
-  color: rgb(35, 33, 33)!important;
+  margin-bottom: 15px;
+  color: rgb(105, 238, 100)!important; 
   font-family: 'Times New Roman', Times, serif;
+  position: relative; 
+  z-index: 3; 
 }
 
 .hero p {
   font-size: 1.2rem;
-  margin-bottom: 20px!important;
+  margin-bottom: 20px;
+  color: white; 
+  position: relative; 
+  z-index: 3; 
 }
 
 .explore-btn {
-  margin-top: 15px!important;
-  padding: 10px 20px!important;
+  margin-top: 15px;
+  padding: 10px 20px;
   background-color: white;
   color: #2c6e49!important;
   text-decoration: none;
   font-weight: bold;
   border-radius: 5px;
+  position: relative; 
+  z-index: 3; 
 }
 
 .explore-btn:hover {
@@ -44,8 +80,9 @@
   height: auto; 
   object-fit: cover; 
   border-radius: 8px; 
+  position: relative; /* Ensure image is above the blurred background */
+  z-index: 3; /* Bring image to the front */
 }
-
 
 /* Featured Books */
 .featured-books {

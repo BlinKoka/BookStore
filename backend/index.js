@@ -207,9 +207,26 @@ app.delete("/cart/clear/:userId", (req, res) => {
 
 // Get all orders (Admin)
 app.get("/orders", (req, res) => {
-    db.query("SELECT * FROM orders", (err, data) => {
+    const query = `
+        SELECT 
+            orders.idorder, 
+            orders.user_id, 
+            orders.total_price, 
+            orders.created_at, 
+            orders.status, 
+            users.username, 
+            users.email
+        FROM 
+            orders
+        JOIN 
+            users 
+        ON 
+            orders.user_id = users.idusers;
+    `;
+
+    db.query(query, (err, result) => {
         if (err) return res.status(500).json(err);
-        res.status(200).json(data);
+        res.status(200).json(result);
     });
 });
 // Get orders by user (User Order History)
@@ -341,6 +358,61 @@ app.delete("/recommendations/:id", (req, res) => {
     db.query("DELETE FROM recommendations WHERE id = ?", [id], (err) => {
         if (err) return res.status(500).json(err);
         res.status(200).json({ message: "Recommendation deleted successfully" });
+    });
+});
+app.post("/reviews", (req, res) => {
+    const { book_id, user_id, rating, comment } = req.body;
+
+    // Validate rating
+    if (rating < 1 || rating > 5) {
+        return res.status(400).json({ message: "Rating must be between 1 and 5" });
+    }
+
+    const query = "INSERT INTO reviews (book_id, user_id, rating, comment) VALUES (?, ?, ?, ?)";
+    db.query(query, [book_id, user_id, rating, comment], (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.status(201).json({ message: "Review added successfully", reviewId: result.insertId });
+    });
+});
+app.get("/reviews/book/:bookId", (req, res) => {
+    const { bookId } = req.params;
+
+    const query = `
+        SELECT reviews.*, users.username 
+        FROM reviews 
+        JOIN users ON reviews.user_id = users.idusers 
+        WHERE reviews.book_id = ?
+    `;
+
+    db.query(query, [bookId], (err, results) => {
+        if (err) return res.status(500).json(err);
+        res.status(200).json(results);
+    });
+});
+app.put("/reviews/:reviewId", (req, res) => {
+    const { reviewId } = req.params;
+    const { rating, comment } = req.body;
+
+    // Validate rating
+    if (rating < 1 || rating > 5) {
+        return res.status(400).json({ message: "Rating must be between 1 and 5" });
+    }
+
+    const query = "UPDATE reviews SET rating = ?, comment = ? WHERE id = ?";
+    db.query(query, [rating, comment, reviewId], (err, result) => {
+        if (err) return res.status(500).json(err);
+        if (result.affectedRows === 0) return res.status(404).json({ message: "Review not found" });
+        res.status(200).json({ message: "Review updated successfully" });
+    });
+});
+app.delete("/reviews/:reviewId", (req, res) => {
+    const { reviewId } = req.params;
+
+    const query = "DELETE FROM reviews WHERE id = ?";
+    db.query(query, [reviewId], (err, result) => {
+        if (err) return res.status(500).json(err);
+        if (result.affectedRows === 0) return res.status(404).json({ message: "Review not found" });
+        res.status(200).json({ message: "Review deleted successfully" });
     });
 });
 
