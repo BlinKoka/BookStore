@@ -10,7 +10,7 @@ function Login() {
   const [loginStatus, setLoginStatus] = useState("");
   const [registerStatus, setRegisterStatus] = useState("");
   const [showRegisterForm, setShowRegisterForm] = useState(false);
-  const [, setIsLoggedIn] = useState(false);
+  const [,setIsLoggedIn] = useState(false);
   const [welcomeText, setWelcomeText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -38,9 +38,17 @@ function Login() {
       password: password,
     })
       .then((response) => {
-        setRegisterStatus(response.data.message || "Account created successfully");
+        if (response.data.message) {
+          setRegisterStatus(response.data.message);
+        } else {
+          setRegisterStatus("Account created successfully");
+          setShowRegisterForm(false); // Switch back to login form after successful registration
+        }
       })
-      .catch(() => setRegisterStatus("An error occurred."));
+      .catch((error) => {
+        console.error("Registration error:", error);
+        setRegisterStatus("An error occurred during registration.");
+      });
   };
 
   // Login Function
@@ -49,18 +57,30 @@ function Login() {
     Axios.post("http://localhost:3001/login", {
       username: username,
       password: password,
-    }).then((response) => {
-      if (response.data.message) {
-        setLoginStatus(response.data.message);
-      } else {
-        setLoginStatus("Login was successful");
-        localStorage.setItem("accessToken", response.data.accessToken);
-        localStorage.setItem("role", response.data.role);
-        localStorage.setItem("idusers", response.data.idusers);
-        setIsLoggedIn(true);
-        navigate("/");
-      }
-    });
+    })
+      .then((response) => {
+        if (response.data.message) {
+          setLoginStatus(response.data.message); // Display error message from backend
+        } else {
+          // Store user data in local storage
+          localStorage.setItem("accessToken", response.data.token);
+          localStorage.setItem("role", response.data.role);
+          localStorage.setItem("idusers", response.data.idusers);
+          localStorage.setItem("username", response.data.username);
+
+          setIsLoggedIn(true); // Update login status
+          setLoginStatus("Login successful");
+
+          // Redirect to home page after a short delay
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
+        }
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
+        setLoginStatus("Invalid username or password");
+      });
   };
 
   return (
@@ -85,11 +105,40 @@ function Login() {
           <div className="registerForm">
             <form onSubmit={register}>
               <h4>Register Here</h4>
-              <input type="email" name="email" placeholder="Enter email" required value={email} onChange={(e) => setEmail(e.target.value)} className="textInput" />
-              <input type="text" name="username" placeholder="Enter username" required value={username} onChange={(e) => setUsername(e.target.value)} className="textInput" />
-              <input type="password" name="password" placeholder="Enter password" required value={password} onChange={(e) => setPassword(e.target.value)} className="textInput" />
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="textInput"
+              />
+              <input
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="textInput"
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="textInput"
+              />
               <input type="submit" value="Register" className="button" />
-              <p>Already have an account? <button type="button" className="switch-btn" onClick={() => setShowRegisterForm(false)}>Login here</button></p>
+              <p>
+                Already have an account?{" "}
+                <button type="button" className="switch-btn" onClick={() => setShowRegisterForm(false)}>
+                  Login here
+                </button>
+              </p>
               <p className="statusMessage">{registerStatus}</p>
             </form>
           </div>
@@ -97,10 +146,31 @@ function Login() {
           <div className="loginForm">
             <form onSubmit={login}>
               <h4>Login Here</h4>
-              <input type="text" name="username" placeholder="Enter username" required value={username} onChange={(e) => setUsername(e.target.value)} className="textInput" />
-              <input type="password" name="password" placeholder="Enter password" required value={password} onChange={(e) => setPassword(e.target.value)} className="textInput" />
+              <input
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="textInput"
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="textInput"
+              />
               <input type="submit" value="Login" className="button" />
-              <p>Don't have an account? <button type="button" className="switch-btn" onClick={() => setShowRegisterForm(true)}>Register here</button></p>
+              <p>
+                Don't have an account?{" "}
+                <button type="button" className="switch-btn" onClick={() => setShowRegisterForm(true)}>
+                  Register here
+                </button>
+              </p>
               <p className="statusMessage">{loginStatus}</p>
             </form>
           </div>

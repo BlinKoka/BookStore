@@ -104,7 +104,8 @@ button {
 
 /* General Form Styles */
 .form {
-    width: 25%!important;
+    max-width: 100%!important;
+    height: 50vh!important;
     margin: 0 auto;
     padding: 25px;
     margin-top: 80px;
