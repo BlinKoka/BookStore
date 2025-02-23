@@ -19,8 +19,8 @@ import UpdateRecommendation from './Recommended/updaterecommendation';
 import RecommendedBooks from './Recommended/RecommendedBooks';
 import BookDetailsPage from './BookDetailsPage';
 import ReviewList from './reviews/ReviewList';
-import ProtectedRoute from './ProtectedRoute'; // Import ProtectedRoute
-import AdminProtectedRoute from './AdminProtectedRoute'; // Import AdminProtectedRoute
+import ProtectedRoute from './ProtectedRoute';
+import AdminProtectedRoute from './AdminProtectedRoute';
 
 const Pages = () => {
     const userId = 1;
