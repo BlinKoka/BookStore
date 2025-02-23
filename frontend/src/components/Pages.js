@@ -19,31 +19,42 @@ import UpdateRecommendation from './Recommended/updaterecommendation';
 import RecommendedBooks from './Recommended/RecommendedBooks';
 import BookDetailsPage from './BookDetailsPage';
 import ReviewList from './reviews/ReviewList';
+import ProtectedRoute from './ProtectedRoute'; // Import ProtectedRoute
+import AdminProtectedRoute from './AdminProtectedRoute'; // Import AdminProtectedRoute
 
 const Pages = () => {
     const userId = 1;
 
     return (
         <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/book" element={<Book />} /> 
-            <Route path="/booklist" element={<Books />} />
             <Route path="/books/:id" element={<BookDetailsPage />} />
-            <Route path="/userlist" element={<Userlist />} />
-            <Route path="/add" element={<Add />} />
-            <Route path="/update/:id" element={<Update />} />
-            <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/order-history" element={<OrderHistory userId={userId} />} />
-            <Route path="/order-items/:orderId" element={<OrderDetails />} />
-            <Route path="/change-password" element={<ChangePassword />} />
-            <Route path="/orders" element={<OrderList />} />
-            <Route path="/add-recommendation" element={<AddRecommendation />} />
-            <Route path="/recommendations" element={<RecommendationList />} />
-            <Route path="/update-recommendation/:id" element={<UpdateRecommendation />} />
-            <Route path="/recommendedbook" element={<RecommendedBooks/>} />
-            <Route path="/reviewlist" element={<ReviewList />} />
+
+            {/* User-Only Routes */}
+            <Route element={<ProtectedRoute />}>
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/order-history" element={<OrderHistory userId={userId} />} />
+                <Route path="/order-items/:orderId" element={<OrderDetails />} />
+                <Route path="/change-password" element={<ChangePassword />} />
+                <Route path="/recommendedbook" element={<RecommendedBooks />} />
+            </Route>
+
+            {/* Admin-Only Routes */}
+            <Route element={<AdminProtectedRoute />}>
+                <Route path="/booklist" element={<Books />} />
+                <Route path="/userlist" element={<Userlist />} />
+                <Route path="/add" element={<Add />} />
+                <Route path="/update/:id" element={<Update />} />
+                <Route path="/orders" element={<OrderList />} />
+                <Route path="/add-recommendation" element={<AddRecommendation />} />
+                <Route path="/recommendations" element={<RecommendationList />} />
+                <Route path="/update-recommendation/:id" element={<UpdateRecommendation />} />
+                <Route path="/reviewlist" element={<ReviewList />} />
+            </Route>
         </Routes>
     );
 }

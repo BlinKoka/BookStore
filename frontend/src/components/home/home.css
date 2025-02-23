@@ -5,16 +5,16 @@
 
 /* Hero Section */
 .hero {
-  display: flex; 
-  justify-content: space-evenly; 
-  align-items: center; 
-  background: url('/src/components/Assets/bbb.jpg') no-repeat center center/cover; 
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background: url('/src/components/Assets/bbb.jpg') no-repeat center center/cover;
   color: white;
   padding: 50px 20px;
   text-align: left;
-  border-radius: 10px; 
-  height: 60vh; 
-  position: relative; 
+  border-radius: 10px;
+  height: 60vh;
+  position: relative;
   overflow: hidden;
 }
 
@@ -25,9 +25,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: inherit; 
-  filter: blur(8px); 
-  z-index: 1; 
+  background: inherit;
+  filter: blur(8px);
+  z-index: 1;
 }
 
 /* Dark overlay */
@@ -38,25 +38,25 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); 
-  z-index: 2; 
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2;
 }
 
 .hero h1 {
   font-size: 4rem;
   margin-bottom: 15px;
-  color: rgb(105, 238, 100)!important; 
+  color: rgb(105, 238, 100)!important;
   font-family: 'Times New Roman', Times, serif;
-  position: relative; 
-  z-index: 3; 
+  position: relative;
+  z-index: 3;
 }
 
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 20px;
-  color: white; 
-  position: relative; 
-  z-index: 3; 
+  color: white;
+  position: relative;
+  z-index: 3;
 }
 
 .explore-btn {
@@ -67,8 +67,9 @@
   text-decoration: none;
   font-weight: bold;
   border-radius: 5px;
-  position: relative; 
-  z-index: 3; 
+  position: relative;
+  z-index: 3;
+  transition: background-color 0.3s ease;
 }
 
 .explore-btn:hover {
@@ -77,11 +78,11 @@
 
 .hero img {
   width: 30%;
-  height: auto; 
-  object-fit: cover; 
-  border-radius: 8px; 
-  position: relative; /* Ensure image is above the blurred background */
-  z-index: 3; /* Bring image to the front */
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  position: relative;
+  z-index: 3;
 }
 
 /* Featured Books */
@@ -104,23 +105,51 @@
   text-align: center;
   background: white;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.book-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(44, 102, 45, 0.1), rgba(30, 77, 30, 0.1));
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.book-card:hover::before {
+  opacity: 1;
+}
+
+.book-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .book-card img {
   width: 100%;
   height: 35vh;
+  object-fit: cover;
 }
 
 .view-btn {
   display: inline-block;
-  margin-top: 10px!important;
-  padding: 5px 10px!important;
+  margin-top: 10px;
+  padding: 5px 10px;
   background-color: #4CAF50;
   color: white!important;
   text-decoration: none;
   border-radius: 5px;
+  transition: background-color 0.3s ease;
+  position: relative;
+  z-index: 10; 
 }
-
 .view-btn:hover {
-  background-color: #2c6e49;
+  background-color: #2c6e49!important;
 }
